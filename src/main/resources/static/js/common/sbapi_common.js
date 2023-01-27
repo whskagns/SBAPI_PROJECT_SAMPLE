@@ -29,7 +29,7 @@
     			, "fncSuccCallback"
     			);		
  * */
-function comAjax(url, paramObj, fnSucc, fnFail, bErrMsg){
+function comAjax(url, paramObj, fnSucc, fnFail, bErrMsg, headerObj){
 	//에러응답시 공통 Alert 처리 여부
 	var errMsg = true;
 	if(typeof bErrMsg == "boolean"){
@@ -49,6 +49,14 @@ function comAjax(url, paramObj, fnSucc, fnFail, bErrMsg){
 		async: true,
 		timeout: 20000,
 		dataType: "JSON",
+		beforeSend: function(xhr) {
+			if(headerObj != null) {
+				var headerKeys = Object.keys(headerObj);
+				for(var i=0; i<headerKeys.length; i++) {
+					xhr.setRequestHeader(headerKeys[i], headerObj[headerKeys[i]]);
+				}
+			}
+		},
 		success : function(data) {
 			if(fnSucc != null && fnSucc != undefined){	//succ callback set
     			var fn ;
@@ -63,12 +71,18 @@ function comAjax(url, paramObj, fnSucc, fnFail, bErrMsg){
     		}
 		},
 		error : function(fData) {
-			if(fData.responseJSON.errorCode == "SESS_LOGIN_EXPIRED" && ComUtil.getMobileOs() == "NONE"){
+			console.log(fData);
+			if((fData.responseJSON != null && fData.responseJSON.errorCode == "SESS_LOGIN_EXPIRED") && ComUtil.getMobileOs() == "NONE"){
 				alert("세션이종료되었습니다.");
 				return false;
 			}else{
 	    		if(errMsg){
-					alert("통신중 오류가 발생했습니다. 시스템 관리자에게 문의하세요.");
+					if((fData.responseJSON != null && fData.responseJSON.errorCode != null) && fData.responseJSON.errorMessage != null) {
+						errMsg = "[" + fData.responseJSON.errorCode + "] " + fData.responseJSON.errorMessage;
+					}else {
+						errMsg = "통신중 오류가 발생했습니다. 시스템 관리자에게 문의하세요.";
+					}
+					alert(errMsg);
 					if(fnFail != null && fnFail != undefined){	//fail callback set
 		    			var fn ;
 						if( typeof callbackFn == "string"){
@@ -77,7 +91,11 @@ function comAjax(url, paramObj, fnSucc, fnFail, bErrMsg){
 							fn = fnFail;
 						}
 						if(typeof fn === "function"){ 
-							fn(fData);
+							if(fData.responseJSON != null) {
+								fn(fData.responseJSON);
+							}else {
+								fn(fData);
+							}
 						}
 		    		}
 	    			
@@ -90,7 +108,11 @@ function comAjax(url, paramObj, fnSucc, fnFail, bErrMsg){
 							fn = fnFail;
 						}
 						if(typeof fn === "function"){ 
-							fn(fData);
+							if(fData.responseJSON != null) {
+								fn(fData.responseJSON);
+							}else {
+								fn(fData);
+							}
 						}
 		    		}
 				}
@@ -145,7 +167,7 @@ $.extend({
 	 * @param exdays : 쿠키 유효기간(일자)
 	 * ex) $.setCookie("user_id", "master", 7);
 	 */
-	, setCookie: function(cookieName, value, exdays) {
+	setCookie: function(cookieName, value, exdays) {
 		var exdate = new Date();
 		exdate.setDate(exdate.getDate() + exdays);
 		var cookieValue = escape(value) + ((exdate==null) ? "" : "; expires=" + exdate.toGMTString());

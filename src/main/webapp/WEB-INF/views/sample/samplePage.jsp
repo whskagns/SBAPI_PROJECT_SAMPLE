@@ -26,8 +26,43 @@ $(document).ready(function() {
 <!-- S: content --------------------------------------------------------------------------------------------------->
 
 <!-- S: Filter -->
-<div class="container">
-	Hello world
+<div class="container p5">
+
+	<h2>Hello world</h2>
+	
+	<h5 class="mt20">요청부</h5>
+	<div id="requestArea" class="mt5">
+		◎ API URI : <input id="apiUri" name="apiUri" class="w500" value="" placeholder="/user/getInfo" />
+		<br/>
+		◎ API Header Field : 
+		<ul id="headerInputUl" class="mt5">
+			<li>
+				<span>[1]</span>
+				KEY: <input name="inputKey" class="inputKey w200" value="apiKey" readonly />
+				VALUE: <input name="inputValue" class="inputValue w300" value="1q2w3e4r" />
+				<a href="javascript:void(0);" class="btn btn-blue plus">+</a> <a href="javascript:void(0);" class="btn btn-gray minus hide">-</a>
+			</li>
+		</ul>
+		<br/>
+		◎ API Body Field : 
+		<ul id="bodyInputUl" class="mt5">
+			<li>
+				<span>[1]</span>
+				KEY: <input name="inputKey" class="inputKey w200" value="" />
+				VALUE: <input name="inputValue" class="inputValue w300" value="" />
+				<a href="javascript:void(0);" class="btn btn-blue plus">+</a> <a href="javascript:void(0);" class="btn btn-gray minus hide">-</a>
+			</li>
+		</ul>
+		<a href="javascript:void(0);" id="btnSearch" class="btn">요청값 전송</a>
+		<br/>
+		<textarea id="requestDataArea" class="w800" rows="30" readonly></textarea>
+	</div>
+	
+	<h5 class="mt20">응답부</h5>
+	<div id="responseArea" class="mt5">
+		<textarea id="responseDataArea" class="w800" rows="30" readonly></textarea>
+	</div>
+	
 </div>
 
 <!-- E: content --------------------------------------------------------------------------------------------------->

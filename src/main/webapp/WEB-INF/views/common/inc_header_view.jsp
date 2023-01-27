@@ -23,3 +23,4 @@
 
 <!-- S: contents -->
 <div id="contents">
+	<div class="loading hide"></div>
