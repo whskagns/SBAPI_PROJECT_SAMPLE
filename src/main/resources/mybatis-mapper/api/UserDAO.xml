@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="UserDAO">
+
+	<!-- 회원등록여부조회 -->
+    <select id="selectUserRegYn" parameterType="HashMap" resultType="String">
+    	SELECT
+        	CASE WHEN COUNT(*) <![CDATA[>]]> 0 THEN 'Y' ELSE 'N' END AS USER_REG_YN
+        FROM tb_user_info
+        WHERE user_id = #{userId}
+    </select>
+    
+    <!-- 회원정보조회 -->
+    <select id="selectUserInfo" parameterType="HashMap" resultType="HashMap">
+    	SELECT
+    		user_id
+			, user_pwd
+			, user_birthday
+			, user_nm
+			, user_gender
+			, user_phone_no
+			, user_email
+			, email_yn
+			, noti_send_yn
+			, event_send_yn
+			, connect_date
+			, cancel_yn
+			, cancel_date
+			, reg_dtm
+			, reg_id
+			, mod_dtm
+			, mod_id
+    	FROM tb_user_info
+    	WHERE 1=1
+    		AND user_id = #{userId}
+    		<if test="searchCancelYn != null and searchCancelYn != 'Y' ">
+    			AND cancel_yn = 'N'
+    		</if>
+    </select>
+    <!-- ## 데이터베이스에서 조회한 칼럼명과 화면 출력명을 다르게 선언하고 싶은 경우는 아래의 주석을 활용할 수 있다. ##
+    <resultMap id="userInfoResultMap" type="HashMap">
+	    <result property="userId" column="user_id" />
+	    <result property="userBirthday" column="user_birthday" />
+	    <result property="userNm" column="user_nm" />
+	    <result property="userGender" column="user_gender" />
+	    <result property="userPhoneNo" column="user_phone_no" />
+	    <result property="userEmail" column="user_email" />
+	    <result property="emailYn" column="email_yn" />
+	    <result property="notiSendYn" column="noti_send_yn" />
+	    <result property="eventSendYn" column="event_send_yn" />
+	    <result property="connectDate" column="connect_date" />
+	    <result property="cancelYn" column="cancel_yn" />
+	    <result property="cancelDate" column="cancel_date" />
+	    <result property="regDtm" column="reg_dtm" />
+	    <result property="regId" column="reg_id" />
+	    <result property="modDtm" column="mod_dtm" />
+	    <result property="modId" column="mod_id" />
+    </resultMap>
+    <select id="selectUserInfo" parameterType="HashMap" resultMap="userInfoResultMap">
+    </select> 
+    -->
+    
+    <!-- 게시판게시글등록 -->
+    <!-- 
+    <insert id="insertBoardInfo" parameterType="HashMap">
+    	<selectKey keyProperty="SEQ_NO" resultType="int" order="BEFORE">
+    		SELECT NEXTVAL('board_req') AS SEQ_NO
+    	</selectKey>
+    	INSERT INTO tb_board_info (
+    		board_req, board_title, board_ctt
+    		, board_yn, start_date, end_date
+    		, top_img_yn, sel_num, reg_dtm
+    		, reg_id, mod_dtm, mod_id
+    	) VALUES (
+    		#{SEQ_NO}, #{boardTitle}, #{boardCtt}
+    		, #{boardYn}, #{startDate}, #{endDate}
+    		, #{topImgYn}, 0, NOW()
+    		, #{regId}, NOW(), #{modId}
+    	)
+    </insert>
+    -->
+
+</mapper>

@@ -82,10 +82,10 @@ public class UserController {
 			reqParam.put("userId", param.getUserId());
 			
 			Map<String, Object> resultInfo = service.selectUserInfo(reqParam);	//--회원정보조회
-			result.setUserId(resultInfo.get("userId").toString());
-			result.setUserNm(resultInfo.get("userNm").toString());
-			result.setPhoneNum(resultInfo.get("phoneNum").toString());
-			result.setEmailId(resultInfo.get("emailId").toString());
+			result.setUserId(resultInfo.get("user_id").toString());
+			result.setUserNm(resultInfo.get("user_nm").toString());
+			result.setPhoneNum(resultInfo.get("user_phone_no").toString());
+			result.setEmailId(resultInfo.get("user_email").toString());
 		}
 		
 		/*** [결과응답 셋팅] ***/
