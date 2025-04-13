@@ -4,7 +4,7 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<title>SBAPI 샘플</title>
+	<title>SBAPI 샘플 TEST</title>
 	
 	<script type="text/javascript">
 		location.href="/sample/samplePage.do";
