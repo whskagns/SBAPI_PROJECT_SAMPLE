@@ -10,7 +10,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 public class SbapiProjectApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
-		//test save
+		//test save2
 		SpringApplication.run(SbapiProjectApplication.class, args);
 	}
 
